@@ -44,11 +44,11 @@ class Builder:
         for page in self.site['pages']:
             destination = build_destination(page, self.folders['output'])
             destination_folder = os.path.dirname(destination)
-            html_content = self.template_renderer.render_page(page, self.site)
+            html_page = self.template_renderer.render_page(page, self.site)
             if not os.path.exists(destination_folder):
                 os.makedirs(destination_folder)
             with open(destination, 'w+') as output:
-                output.write(html_content)
+                output.write(html_page)
 
 
 def build_destination(page, folder):
