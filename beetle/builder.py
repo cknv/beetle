@@ -31,7 +31,8 @@ class Builder:
 
         self.site['pages'] = pages
         self.site['categories'] = page_categories(pages)
-        self.site['tags'] = page_tags(pages)
+
+        handle_multipages(pages, self.site)
 
         self.write_pages()
 
@@ -75,16 +76,6 @@ def page_categories(pages):
     return categories
 
 
-def page_tags(pages):
-    tags = defaultdict(list)
-    for page in pages:
-        if 'tags' not in page:
-            continue
-        for tag in page['tags']:
-            tags[tag].append(page)
-    return tags
-
-
 def make_pages(paths, page_defaults):
     for path in paths:
         yield make_page(path, page_defaults)
@@ -104,6 +95,9 @@ def make_page(path, page_defaults):
             page['content'] = None
 
         page.update(page_config)
+
+        if 'multipage' in page and page['multipage']:
+            return page
 
         # make slugs
         page['slug'] = make_slug(page)
@@ -132,3 +126,26 @@ def make_url(page):
         # Oh oh, there is not even any url_pattern.
         # Throw exception, since we need something to make urls from.
         pass
+
+
+def handle_multipages(pages, site):
+    for page in pages:
+        if not page.get('multipage'):
+            continue
+        field = page['multifield']
+        for group, pages in group_pages_by_field(pages, field).items():
+            print(group, len(pages))
+
+
+def group_pages_by_field(pages, field):
+    grouping = defaultdict(list)
+    for page in pages:
+        if field not in page:
+            continue
+        if not isinstance(page[field], list):
+            values = [page[field]]
+        else:
+            values = page[field]
+        for value in values:
+            grouping[value].append(page)
+    return grouping
