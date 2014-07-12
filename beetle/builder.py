@@ -12,11 +12,9 @@ class Builder:
             'output': 'output',
             'templates': 'templates',
         }
-        self.page_defaults = {
-
-        }
-
+        self.page_defaults = {}
         self.site = {}
+
         if config is not None:
             # Aha! We have a config, lets update accordingly.
             self.folders.update(config.get('folders', {}))
@@ -32,7 +30,9 @@ class Builder:
         self.site['pages'] = pages
         self.site['categories'] = page_categories(pages)
 
-        handle_multipages(pages, self.site)
+        self.site['groups'] = {
+            field: groups for field, groups in group_pages(self.site, pages)
+        }
 
         self.write_pages()
 
@@ -78,7 +78,9 @@ def page_categories(pages):
 
 def make_pages(paths, page_defaults):
     for path in paths:
-        yield make_page(path, page_defaults)
+        page = make_page(path, page_defaults)
+        if page:
+            yield page
 
 
 def make_page(path, page_defaults):
@@ -93,6 +95,9 @@ def make_page(path, page_defaults):
             page['content'] = raw[1]
         except:
             page['content'] = None
+
+        if not page_config.get('published', True):
+            return
 
         page.update(page_config)
 
@@ -128,24 +133,16 @@ def make_url(page):
         pass
 
 
-def handle_multipages(pages, site):
-    for page in pages:
-        if not page.get('multipage'):
-            continue
-        field = page['multifield']
-        for group, pages in group_pages_by_field(pages, field).items():
-            print(group, len(pages))
-
-
-def group_pages_by_field(pages, field):
-    grouping = defaultdict(list)
-    for page in pages:
-        if field not in page:
-            continue
-        if not isinstance(page[field], list):
-            values = [page[field]]
-        else:
-            values = page[field]
-        for value in values:
-            grouping[value].append(page)
-    return grouping
+def group_pages(site, pages):
+    for field in site.get('grouping', []):
+        grouping = defaultdict(list)
+        for page in pages:
+            if field not in page:
+                continue
+            if not isinstance(page[field], list):
+                values = [page[field]]
+            else:
+                values = page[field]
+            for value in values:
+                grouping[value].append(page)
+        yield field, grouping
