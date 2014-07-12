@@ -1,5 +1,6 @@
 from .renderers import ContentRenderer, TemplateRenderer
 from slugify import slugify
+from collections import defaultdict
 import yaml
 import os
 
@@ -27,6 +28,10 @@ class Builder:
     def run(self):
         pages = make_pages(self.page_paths(), self.page_defaults)
         self.pages = list(pages)
+
+        self.categories = page_categories(self.pages)
+        self.tags = page_tags(self.pages)
+
         self.write_pages()
 
     def page_paths(self):
@@ -52,6 +57,23 @@ def build_destination(page, folder):
         folder=folder,
         path=page['url'],
     )
+
+
+def page_categories(pages):
+    categories = defaultdict(list)
+    for page in pages:
+        categories[page['category']].append(page)
+    return categories
+
+
+def page_tags(pages):
+    tags = defaultdict(list)
+    for page in pages:
+        if 'tags' not in page:
+            continue
+        for tag in page['tags']:
+            tags[tag].append(page)
+    return tags
 
 
 def make_pages(paths, page_defaults):
