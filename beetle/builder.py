@@ -57,9 +57,11 @@ def build_destination(page, folder):
     else:
         dest_template = '{folder}/{path}'
 
-    if not page['url'].endswith('.html'):
-        # Handle the case where the urls are pretty and just point to a folder.
-        dest_template += '/index.html'
+    _, extension = os.path.splitext(page['url'])
+    if not extension:
+        # This is a pretty url that points at a directory.
+        # Add index.html to the destination.
+        dest_template = os.path.join(dest_template, 'index.html')
     return dest_template.format(
         folder=folder,
         path=page['url'],
