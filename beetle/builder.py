@@ -86,7 +86,7 @@ def make_slug(page):
     if 'slug' in page:
         return page['slug']
     elif 'title' in page:
-        return slugify(page['title'])
+        return slugify(page['title'].lower())
     else:
         # Erh. What else can we build slugs from?
         pass
