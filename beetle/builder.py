@@ -27,10 +27,11 @@ class Builder:
 
     def run(self):
         pages = make_pages(self.page_paths(), self.page_defaults)
-        self.pages = list(pages)
+        pages = list(pages)
 
-        self.categories = page_categories(self.pages)
-        self.tags = page_tags(self.pages)
+        self.site['pages'] = pages
+        self.site['categories'] = page_categories(pages)
+        self.site['tags'] = page_tags(pages)
 
         self.write_pages()
 
@@ -40,10 +41,12 @@ class Builder:
                 yield os.path.join(folder, file_name)
 
     def write_pages(self):
-        for page in self.pages:
+        for page in self.site['pages']:
             destination = build_destination(page, self.folders['output'])
+            destination_folder = os.path.dirname(destination)
             html_content = self.template_renderer.render_page(page, self.site)
-            os.makedirs(os.path.dirname(destination))
+            if not os.path.exists(destination_folder):
+                os.makedirs(destination_folder)
             with open(destination, 'w+') as output:
                 output.write(html_content)
 
@@ -53,6 +56,10 @@ def build_destination(page, folder):
         dest_template = '{folder}{path}'
     else:
         dest_template = '{folder}/{path}'
+
+    if not page['url'].endswith('.html'):
+        # Handle the case where the urls are pretty and just point to a folder.
+        dest_template += '/index.html'
     return dest_template.format(
         folder=folder,
         path=page['url'],
