@@ -17,3 +17,4 @@ Todo:
 * Page defaults by category.
 * Content rendering by file extentions.
 * Multipages.
+* Beter subpage handling and pagination thereof.
