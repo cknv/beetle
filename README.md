@@ -19,3 +19,8 @@ There are some areas that I know I want to work on and improve, these are:
 * Content rendering by file extentions.
 * Multipages.
 * Beter subpage handling and pagination thereof.
+
+Name
+----
+
+Right now, this code is not published at pypi. Currently the name beetle is not taken (as far as I can see on pypi), but that may change. So I may have to rename the project if that happens, who knows?
