@@ -35,6 +35,8 @@ class Builder:
             field: groups for field, groups in group_pages(self.site, pages)
         }
 
+        give_subpages(self.site)
+
         self.write_pages()
 
     def page_paths(self):
@@ -82,6 +84,14 @@ def make_pages(paths, page_defaults):
         page = make_page(path, page_defaults)
         if page:
             yield page
+
+
+def give_subpages(site):
+    for page in site['pages']:
+        if 'subpages' not in page:
+            continue
+        subpage_group = page['subpages']['group']
+        page['subpages'] = site['groups'][subpage_group]
 
 
 def make_page(path, page_defaults):
