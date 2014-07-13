@@ -3,6 +3,7 @@ from slugify import slugify
 from collections import defaultdict
 from datetime import datetime
 import yaml
+import shutil
 import os
 
 
@@ -12,6 +13,7 @@ class Builder:
             'content': 'content',
             'output': 'output',
             'templates': 'templates',
+            'media': 'media',
         }
         self.page_defaults = {}
         self.site = {}
@@ -41,6 +43,8 @@ class Builder:
         render_pages(self.site['pages'], self.content_renderer)
 
         self.write_pages()
+
+        copy_media(self.folders)
 
     def page_paths(self):
         for folder, folders, files in os.walk(self.folders['content']):
@@ -191,3 +195,15 @@ def group_pages(site, pages):
 def render_pages(pages, renderer):
     for page in pages:
         page['content'] = renderer.render(page)
+
+
+def copy_media(folder):
+    origin = folder['media']
+    destination = os.path.join(folder['output'], folder['media'])
+
+    if not os.path.exists(origin):
+        return
+
+    if os.path.exists(destination):
+        shutil.rmtree(destination)
+    shutil.copytree(origin, destination)
