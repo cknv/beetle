@@ -13,7 +13,7 @@ I should give credit where credit is due, so:
 
 Gaps and missing stuff:
 -----------------------
-There are some areas that I know I want to work on and improve, these are:
+There are some areas that I know I want to work on and improve, these are (in no particular order):
 
 * Tests!
 * Page defaults by category.
