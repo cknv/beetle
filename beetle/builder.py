@@ -90,8 +90,12 @@ def give_subpages(site):
     for page in site['pages']:
         if 'subpages' not in page:
             continue
-        subpage_group = page['subpages']['group']
-        page['subpages'] = site['groups'][subpage_group]
+        if 'group' in page['subpages']:
+            subpage_group = page['subpages']['group']
+            page['subpages'] = site['groups'][subpage_group]
+        elif 'category' in page['subpages']:
+            subpage_group = page['subpages']['category']
+            page['subpages'] = site['categories'][subpage_group]
 
 
 def make_page(path, page_defaults):
