@@ -15,6 +15,7 @@ Gaps and missing stuff:
 -----------------------
 There are some areas that I know I want to work on and improve, these are:
 
+* Tests!
 * Page defaults by category.
 * Content rendering by file extentions.
 * Multipages.
