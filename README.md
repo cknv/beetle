@@ -18,7 +18,7 @@ There are some areas that I know I want to work on and improve, these are (in no
 * Tests!
 * Page defaults by category.
 * ~~Content rendering by file extentions.~~ Support more markup languages.
-* Multipages.
+* Multipages - pages that render into several pages, usefull for some tag pages/feeds.
 * Beter subpage handling and pagination thereof.
 * Actual pypi distribution.
 * Better cli.
