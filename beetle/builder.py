@@ -49,8 +49,6 @@ class Builder:
 
     def write_pages(self):
         for page in self.site['pages']:
-            # if 'subpages' in page:
-                # print([p['date'] for p in page['subpages']])
             destination = build_destination(page, self.folders['output'])
             destination_folder = os.path.dirname(destination)
             html_page = self.template_renderer.render_page(page, self.site)
