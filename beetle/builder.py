@@ -49,6 +49,8 @@ class Builder:
 
     def write_pages(self):
         for page in self.site['pages']:
+            # if 'subpages' in page:
+                # print([p['date'] for p in page['subpages']])
             destination = build_destination(page, self.folders['output'])
             destination_folder = os.path.dirname(destination)
             html_page = self.template_renderer.render_page(page, self.site)
@@ -95,10 +97,20 @@ def give_subpages(site):
             continue
         if 'group' in page['subpages']:
             subpage_group = page['subpages']['group']
-            page['subpages'] = site['groups'][subpage_group]
+            pages_grouping = site['groups'][subpage_group]
+
         elif 'category' in page['subpages']:
             subpage_group = page['subpages']['category']
-            page['subpages'] = site['categories'][subpage_group]
+            pages_grouping = {subpage_group: site['categories'][subpage_group]}
+
+        if 'sort_key' in page['subpages']:
+            sort_key = page['subpages']['sort_key']
+            reverse = page['subpages'].get('reversed', False)
+            for name, pages in pages_grouping.items():
+                pages = sorted(pages, key=lambda p: p[sort_key], reverse=reverse)
+                pages_grouping[name] = pages
+
+        page['subpages'] = pages_grouping
 
 
 def make_page(path, page_defaults):
