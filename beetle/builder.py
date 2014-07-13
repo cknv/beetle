@@ -23,6 +23,7 @@ class Builder:
             self.page_defaults.update(config.get('page_defaults', {}))
 
         self.template_renderer = TemplateRenderer(self.folders['templates'])
+        self.content_renderer = ContentRenderer.default()
 
     def run(self):
         pages = make_pages(self.page_paths(), self.page_defaults)
@@ -36,6 +37,8 @@ class Builder:
         }
 
         give_subpages(self.site)
+
+        render_pages(self.site['pages'], self.content_renderer)
 
         self.write_pages()
 
@@ -101,15 +104,17 @@ def give_subpages(site):
 def make_page(path, page_defaults):
     page = {}
     page.update(page_defaults)
+    _, extension = os.path.splitext(path)
+    page['extension'] = extension.strip('.')
     with open(path) as f:
         raw = f.read().split('---')
 
         page_config = yaml.load(raw[0]) or {}
 
         try:
-            page['content'] = raw[1]
+            page['raw_content'] = raw[1]
         except:
-            page['content'] = None
+            page['raw_content'] = None
 
         if not page_config.get('published', True):
             return
@@ -171,3 +176,8 @@ def group_pages(site, pages):
             for value in values:
                 grouping[value].append(page)
         yield field, grouping
+
+
+def render_pages(pages, renderer):
+    for page in pages:
+        page['content'] = renderer.render(page)
