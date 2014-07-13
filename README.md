@@ -20,6 +20,8 @@ There are some areas that I know I want to work on and improve, these are:
 * Content rendering by file extentions.
 * Multipages.
 * Beter subpage handling and pagination thereof.
+* Actual pypi distribution.
+* Better cli.
 
 Name
 ----
