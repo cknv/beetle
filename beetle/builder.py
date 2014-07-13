@@ -1,6 +1,7 @@
 from .renderers import ContentRenderer, TemplateRenderer
 from slugify import slugify
 from collections import defaultdict
+from datetime import datetime
 import yaml
 import os
 
@@ -107,6 +108,9 @@ def make_page(path, page_defaults):
         # make slugs
         page['slug'] = make_slug(page)
 
+        # make dates
+        page['date'] = make_date(page)
+
         # make urls
         page['url'] = make_url(page)
     return page
@@ -131,6 +135,13 @@ def make_url(page):
         # Oh oh, there is not even any url_pattern.
         # Throw exception, since we need something to make urls from.
         pass
+
+
+def make_date(page):
+    if 'date' in page:
+        return page['date']
+    else:
+        return datetime.utcnow()
 
 
 def group_pages(site, pages):
