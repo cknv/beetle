@@ -7,9 +7,9 @@ So far, it works for me (TM), and I think I can guarentee that you will find it 
 
 I should give credit where credit is due, so:
 
-* Armin Ronacher for his RSTBlog that really got me interested in making a static blog engine.
-* Mike Cooper for wok, and showing me there is a simple way to make a static blog - I could easily have ended up using wok or a patched version thereof.
-* Jeff Knupp for pointing out that it's ok to make your own static blog engine, since it's so simple.
+* [Armin Ronacher](http://lucumr.pocoo.org/) for his [rstblog](https://github.com/mitsuhiko/rstblog) that really got me interested in making a static blog engine.
+* [Mike Cooper](http://mythmon.com/) for [wok](https://github.com/mythmon/wok), and showing me there is a simple way to make a static blog - I could easily have ended up using wok or a patched version thereof.
+* [Jeff Knupp](http://www.jeffknupp.com/) for pointing out that it's ok to make your own static blog engine, since it's so simple.
 
 Gaps and missing stuff:
 -----------------------
