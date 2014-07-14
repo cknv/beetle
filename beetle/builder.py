@@ -109,7 +109,11 @@ def give_subpages(site):
             sort_key = page['subpages']['sort_key']
             reverse = page['subpages'].get('reversed', False)
             for name, pages in pages_grouping.items():
-                pages = sorted(pages, key=lambda p: p[sort_key], reverse=reverse)
+                pages = sorted(
+                    pages,
+                    key=lambda p: p[sort_key],
+                    reverse=reverse,
+                )
                 pages_grouping[name] = pages
 
         page['subpages'] = pages_grouping
