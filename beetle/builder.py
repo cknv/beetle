@@ -4,7 +4,6 @@ from collections import defaultdict
 from datetime import datetime
 import yaml
 import distutils.core
-import shutil
 import os
 
 
