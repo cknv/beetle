@@ -122,7 +122,7 @@ def make_page(path, page_defaults):
     _, extension = os.path.splitext(path)
     page['extension'] = extension.strip('.')
     with open(path) as f:
-        raw = f.read().split('---')
+        raw = f.read().split('---', 1)
 
         page_config = yaml.load(raw[0]) or {}
 
