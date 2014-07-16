@@ -76,7 +76,7 @@ def build_destination(page, folder):
     return dest_template.format(
         folder=folder,
         path=page['url'],
-    )
+    ).lower()
 
 
 def page_categories(pages):
