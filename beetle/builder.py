@@ -1,10 +1,12 @@
 from .renderers import ContentRenderer, TemplateRenderer
 from slugify import slugify
-from collections import defaultdict
+from collections import defaultdict, namedtuple
 from datetime import datetime
 import yaml
 import distutils.core
 import os
+
+GroupKey = namedtuple('GroupKey', ['name', 'slug'])
 
 
 class Builder:
@@ -32,10 +34,9 @@ class Builder:
         pages = list(pages)
 
         self.site['pages'] = pages
-        self.site['categories'] = page_categories(pages)
 
         self.site['groups'] = {
-            field: groups for field, groups in group_pages(self.site, pages)
+            field: groups for field, groups in group_pages(self.site)
         }
 
         give_subpages(self.site)
@@ -97,26 +98,12 @@ def give_subpages(site):
     for page in site['pages']:
         if 'subpages' not in page:
             continue
-        if 'group' in page['subpages']:
-            subpage_group = page['subpages']['group']
-            pages_grouping = site['groups'][subpage_group]
-
-        elif 'category' in page['subpages']:
-            subpage_group = page['subpages']['category']
-            pages_grouping = {subpage_group: site['categories'][subpage_group]}
-
-        if 'sort_key' in page['subpages']:
-            sort_key = page['subpages']['sort_key']
-            reverse = page['subpages'].get('reversed', False)
-            for name, pages in pages_grouping.items():
-                pages = sorted(
-                    pages,
-                    key=lambda p: p[sort_key],
-                    reverse=reverse,
-                )
-                pages_grouping[name] = pages
-
-        page['subpages'] = pages_grouping
+        primary, secondary = page['subpages'].split('.')
+        if secondary == '*':
+            page['subpages'] = site['groups'][primary]
+        else:
+            secondary_key = GroupKey(name=secondary, slug=slugify(secondary))
+            page['subpages'] = site['groups'][primary][secondary_key]
 
 
 def make_page(path, page_defaults):
@@ -138,9 +125,6 @@ def make_page(path, page_defaults):
             return
 
         page.update(page_config)
-
-        if 'multipage' in page and page['multipage']:
-            return page
 
         # make slugs
         page['slug'] = make_slug(page)
@@ -181,19 +165,37 @@ def make_date(page):
         return datetime.utcnow()
 
 
-def group_pages(site, pages):
-    for field in site.get('grouping', []):
+def group_pages(site):
+    for options in site.get('grouping', []):
+        field = options['field']
+        name = options.get('name', field)
+        reverse = options.get('order') == 'desc'
+        sort_key = options.get('key')
+
         grouping = defaultdict(list)
-        for page in pages:
+        for page in site['pages']:
             if field not in page:
                 continue
             if not isinstance(page[field], list):
-                values = [page[field]]
+                if isinstance(page[field], GroupKey):
+                    key = page[field]
+                else:
+                    value = page[field]
+                    key = GroupKey(name=value, slug=slugify(value))
+                page[field] = key
+                grouping[key].append(page)
             else:
                 values = page[field]
-            for value in values:
-                grouping[value].append(page)
-        yield field, grouping
+                page[field] = []
+                for value in values:
+                    key = GroupKey(name=value, slug=slugify(value))
+                    page[field].append(key)
+                    grouping[key].append(page)
+
+        for key, pages in grouping.items():
+            sort_lambda = lambda p: p[sort_key]
+            grouping[key] = sorted(pages, key=sort_lambda, reverse=reverse)
+        yield name, grouping
 
 
 def render_pages(pages, renderer):
