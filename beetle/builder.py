@@ -80,13 +80,6 @@ def build_destination(page, folder):
     ).lower()
 
 
-def page_categories(pages):
-    categories = defaultdict(list)
-    for page in pages:
-        categories[page['category']].append(page)
-    return categories
-
-
 def make_pages(paths, page_defaults):
     for path in paths:
         page = make_page(path, page_defaults)
