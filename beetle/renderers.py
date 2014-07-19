@@ -17,7 +17,8 @@ class TemplateRenderer:
             yield name, self.env.get_template(template_file)
 
     def render_page(self, page, site):
-        return self.templates[page['type']].render(page=page, site=site)
+        template = self.templates[page['type']]
+        return template.render(page=page, site=site)
 
 
 def render_plain(raw_content):
