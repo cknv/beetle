@@ -1,4 +1,5 @@
 from .renderers import ContentRenderer, TemplateRenderer
+from . import version, project_url, name
 from slugify import slugify
 from collections import defaultdict, namedtuple
 from datetime import datetime
@@ -11,6 +12,13 @@ GroupKey = namedtuple('GroupKey', ['name', 'slug'])
 
 class Builder:
     def __init__(self, config=None):
+        self.about = {
+            'name': name,
+            'version': version,
+            'url': project_url,
+            'now': datetime.utcnow(),
+        }
+
         self.folders = {
             'content': 'content',
             'output': 'output',
@@ -26,7 +34,10 @@ class Builder:
             self.site.update(config.get('site', {}))
             self.page_defaults.update(config.get('page_defaults', {}))
 
-        self.template_renderer = TemplateRenderer(self.folders['templates'])
+        self.template_renderer = TemplateRenderer(
+            self.folders['templates'],
+            self.about,
+        )
         self.content_renderer = ContentRenderer.default()
 
     def run(self):
@@ -121,9 +132,6 @@ def make_page(path, page_defaults):
 
         # make slugs
         page['slug'] = make_slug(page)
-
-        # make dates
-        page['date'] = make_date(page)
 
         # make urls
         page['url'] = make_url(page)

@@ -4,7 +4,8 @@ import os
 
 
 class TemplateRenderer:
-    def __init__(self, template_folder):
+    def __init__(self, template_folder, beetle_about):
+        self.beetle_about = beetle_about
         self.env = Environment(loader=FileSystemLoader(template_folder))
         self.template_folder = template_folder
         self.templates = {
@@ -18,7 +19,7 @@ class TemplateRenderer:
 
     def render_page(self, page, site):
         template = self.templates[page['type']]
-        return template.render(page=page, site=site)
+        return template.render(page=page, site=site, beetle=self.beetle_about)
 
 
 def render_plain(raw_content):
