@@ -11,7 +11,7 @@ GroupKey = namedtuple('GroupKey', ['name', 'slug'])
 
 
 class Builder:
-    def __init__(self, config=None):
+    def __init__(self, config):
         self.about = {
             'name': name,
             'version': version,
@@ -19,20 +19,9 @@ class Builder:
             'now': datetime.utcnow(),
         }
 
-        self.folders = {
-            'content': 'content',
-            'output': 'output',
-            'templates': 'templates',
-            'include': 'include',
-        }
-        self.page_defaults = {}
-        self.site = {}
-
-        if config is not None:
-            # Aha! We have a config, lets update accordingly.
-            self.folders.update(config.get('folders', {}))
-            self.site.update(config.get('site', {}))
-            self.page_defaults.update(config.get('page_defaults', {}))
+        self.folders = config.folders
+        self.page_defaults = config.page_defaults
+        self.site = config.site
 
         self.template_renderer = TemplateRenderer(
             self.folders['templates'],
