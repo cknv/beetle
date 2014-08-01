@@ -3,6 +3,11 @@ from .base import Config
 import sys
 import os
 
+commands = {}
+
+def register_subcommand(command, function):
+    commands[command] = function
+
 def serve(config):
     output_folder = config.folders['output']
     os.chdir(output_folder)
@@ -18,9 +23,7 @@ def serve(config):
     print("serving at port", PORT)
     httpd.serve_forever()
 
-commands = {
-    'serve': serve,
-}
+register_subcommand('serve', serve)
 
 def main():
     config = Config.from_path('config.yaml')
