@@ -10,12 +10,14 @@ class Config:
         }
         self.page_defaults = {}
         self.site = {}
+        self.plugins = []
 
         if data is not None:
             # Aha! We have a config, lets update accordingly.
             self.folders.update(data.get('folders', {}))
             self.site.update(data.get('site', {}))
             self.page_defaults.update(data.get('page_defaults', {}))
+            self.plugins = data.get('plugins')
 
     @classmethod
     def from_path(cls, path):
