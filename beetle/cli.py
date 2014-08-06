@@ -1,40 +1,27 @@
+import importlib
 from .builder import Builder
 from .base import Config
 import sys
 import os
 
-commands = {}
 
-def register_subcommand(command, function):
-    commands[command] = function
+def render(config):
+    builder = Builder(config)
+    builder.run()
 
-def serve(config):
-    output_folder = config.folders['output']
-    os.chdir(output_folder)
-    import SimpleHTTPServer
-    import SocketServer
-
-    PORT = 8000
-
-    Handler = SimpleHTTPServer.SimpleHTTPRequestHandler
-
-    httpd = SocketServer.TCPServer(("", PORT), Handler)
-
-    print("serving at port", PORT)
-    httpd.serve_forever()
-
-register_subcommand('serve', serve)
 
 def main():
     config = Config.from_path('config.yaml')
 
+    commands = {
+        'render': render,
+    }
+
+    for plugin in config.plugins:
+        a = importlib.import_module(plugin['name'])
+        commands.update(a.commands)
+
     if len(sys.argv) > 1:
         command = sys.argv[1]
-        if command in commands:
-            commands[command](config)
-        else:
-            print('unknown command...?')
 
-    else:
-        builder = Builder(config)
-        builder.run()
+        commands[command](config)
