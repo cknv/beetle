@@ -20,7 +20,7 @@ def main():
     builder = Builder(config, content_renderer)
     commander = Commander()
 
-    # Beetle won't work if there is no command to render.
+    # Got to provide a command to render.
     commander.add('render', builder.run)
 
     for plugin_config in config.plugins:
