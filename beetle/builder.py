@@ -11,7 +11,7 @@ GroupKey = namedtuple('GroupKey', ['name', 'slug'])
 
 
 class Builder:
-    def __init__(self, config):
+    def __init__(self, config, content_renderer):
         self.about = {
             'name': name,
             'version': version,
@@ -27,7 +27,7 @@ class Builder:
             self.folders['templates'],
             self.about,
         )
-        self.content_renderer = ContentRenderer.default()
+        self.content_renderer = content_renderer
 
     def run(self):
         pages = make_pages(self.page_paths(), self.page_defaults)
