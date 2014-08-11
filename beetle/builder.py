@@ -1,5 +1,5 @@
 from .renderers import ContentRenderer, TemplateRenderer
-from . import version, project_url, name
+from . import version, project_url, name, BeetleError
 from slugify import slugify
 from collections import defaultdict
 from datetime import datetime
