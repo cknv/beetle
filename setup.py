@@ -2,11 +2,11 @@ from setuptools import setup
 import beetle
 
 setup(
-    name='beetle',
+    name=beetle.name,
     version=beetle.version,
     author='Esben Sonne',
     author_email='esbensonne@gmail.com',
-    url='https://github.com/cknv/beetle',
+    url=beetle.project_url,
     license='MIT',
     keywords='',
     packages=[

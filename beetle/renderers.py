@@ -26,10 +26,6 @@ def render_plain(raw_content):
     return raw_content
 
 
-def render_markdown(raw_content):
-    return markdown.markdown(raw_content)
-
-
 class ContentRenderer:
     renderes = {}
 
@@ -44,12 +40,8 @@ class ContentRenderer:
     def default(cls):
         instance = cls()
 
-        # Markdown
-        markdown_extentions = ['md', 'mkd', 'markdown']
-        instance.add_renderer(markdown_extentions, render_markdown)
-
         # Plain
-        plain_extensions = [None, '']
+        plain_extensions = [None, '', 'txt']
         instance.add_renderer(plain_extensions, render_plain)
 
         return instance

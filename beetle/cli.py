@@ -1,37 +1,38 @@
+import importlib
 from .builder import Builder
 from .base import Config
+from .renderers import ContentRenderer
 import sys
 import os
 
-def serve(config):
-    output_folder = config.folders['output']
-    os.chdir(output_folder)
-    import SimpleHTTPServer
-    import SocketServer
+class Commander:
+    commands = {}
 
-    PORT = 8000
+    def add(self, command, function):
+        self.commands[command] = function
 
-    Handler = SimpleHTTPServer.SimpleHTTPRequestHandler
-
-    httpd = SocketServer.TCPServer(("", PORT), Handler)
-
-    print("serving at port", PORT)
-    httpd.serve_forever()
-
-commands = {
-    'serve': serve,
-}
+    def run(self, command):
+        self.commands[command]()
 
 def main():
     config = Config.from_path('config.yaml')
+    content_renderer = ContentRenderer.default()
+    builder = Builder(config, content_renderer)
+    commander = Commander()
+
+    # Got to provide a command to render.
+    commander.add('render', builder.run)
+
+    for plugin_config in config.plugins:
+        plugin_module = importlib.import_module(plugin_config['name'])
+        plugin_module.register(
+            plugin_config,
+            config,
+            commander,
+            builder,
+            content_renderer
+        )
 
     if len(sys.argv) > 1:
         command = sys.argv[1]
-        if command in commands:
-            commands[command](config)
-        else:
-            print('unknown command...?')
-
-    else:
-        builder = Builder(config)
-        builder.run()
+        commander.run(command)
