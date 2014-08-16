@@ -17,7 +17,7 @@ class Config:
             self.folders.update(data.get('folders', {}))
             self.site.update(data.get('site', {}))
             self.page_defaults.update(data.get('page_defaults', {}))
-            self.plugins = data.get('plugins')
+            self.plugins = data.get('plugins', [])
 
     @classmethod
     def from_path(cls, path):
