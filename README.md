@@ -3,7 +3,7 @@ Beetle
 
 Beetle is a simple static site generator, mostly driven by NIH thinking and a desire to have very little dictated from the engine.
 
-So far, it works for me (TM), and I think I can guarentee that you will find it clunky and hard to work with. Especially from the lack of documentation. There is an example of a very basic site at [beetle-example](https://github.com/Tenzer/beetle-example) which can be a help for now.
+So far, it works for me (TM), and I think I can guarantee that you will find it clunky and hard to work with. Especially from the lack of documentation. There is an example of a very basic site at [beetle-example](https://github.com/Tenzer/beetle-example) which can be a help for now.
 
 I should give credit where credit is due, so:
 
@@ -18,9 +18,9 @@ There are some areas that I know I want to work on and improve, these are (in no
 
 * Tests!
 * Page defaults by category.
-* ~~Content rendering by file extentions.~~ Support more markup languages.
-* Multipages - pages that render into several pages, usefull for some tag pages/feeds.
-* ~~Beter subpage handling.~~
+* ~~Content rendering by file extensions.~~ Support more markup languages.
+* Multipages - pages that render into several pages, useful for some tag pages/feeds.
+* ~~Better subpage handling.~~
 * Pagination of subpages.
 * Actual pypi distribution.
 * Better development server.
