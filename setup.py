@@ -23,7 +23,6 @@ setup(
     install_requires=[
         'PyYAML==3.11',
         'awesome-slugify==1.5',
-        'markdown==2.4.1',
         'Jinja2==2.7.3',
     ],
 )

@@ -1,5 +1,4 @@
 from jinja2 import Environment, FileSystemLoader
-import markdown
 import os
 
 
@@ -14,7 +13,7 @@ class TemplateRenderer:
 
     def load_templates(self):
         for template_file in os.listdir(self.template_folder):
-            name, extension = os.path.splitext(template_file)
+            name, _ = os.path.splitext(template_file)
             yield name, self.env.get_template(template_file)
 
     def render_page(self, page, site):

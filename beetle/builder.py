@@ -1,4 +1,4 @@
-from .renderers import ContentRenderer, TemplateRenderer
+from .renderers import TemplateRenderer
 from . import version, project_url, name
 from slugify import slugify
 from collections import defaultdict
@@ -6,6 +6,7 @@ from datetime import datetime
 import yaml
 import distutils.core
 import os
+
 
 class GroupKey:
     def __init__(self, name, slug):
@@ -57,7 +58,7 @@ class Builder:
         copy_include_folder(self.folders['include'], self.folders['output'])
 
     def page_paths(self):
-        for folder, folders, files in os.walk(self.folders['content']):
+        for folder, _, files in os.walk(self.folders['content']):
             for file_name in files:
                 yield os.path.join(folder, file_name)
 

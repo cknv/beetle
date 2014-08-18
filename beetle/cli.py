@@ -3,7 +3,7 @@ from .builder import Builder
 from .base import Config
 from .renderers import ContentRenderer
 import sys
-import os
+
 
 class Commander:
     commands = {}
