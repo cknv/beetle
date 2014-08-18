@@ -26,14 +26,14 @@ def render_plain(raw_content):
 
 
 class ContentRenderer:
-    renderes = {}
+    renderers = {}
 
     def render(self, page):
-        return self.renderes[page['extension']](page['raw_content'] or '')
+        return self.renderers[page['extension']](page['raw_content'] or '')
 
     def add_renderer(self, extensions, function):
         for extension in extensions:
-            self.renderes[extension] = function
+            self.renderers[extension] = function
 
     @classmethod
     def default(cls):
