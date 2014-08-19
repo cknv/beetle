@@ -133,6 +133,9 @@ def make_page(path, page_defaults):
 
         page.update(page_config)
 
+        # include the path
+        page['path'] = path
+
         # make slugs
         page['slug'] = make_slug(page)
 
