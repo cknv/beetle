@@ -1,5 +1,4 @@
 from jinja2 import Environment, FileSystemLoader
-import markdown
 import os
 
 
@@ -14,7 +13,7 @@ class TemplateRenderer:
 
     def load_templates(self):
         for template_file in os.listdir(self.template_folder):
-            name, extension = os.path.splitext(template_file)
+            name, _ = os.path.splitext(template_file)
             yield name, self.env.get_template(template_file)
 
     def render_page(self, page, site):
@@ -27,14 +26,14 @@ def render_plain(raw_content):
 
 
 class ContentRenderer:
-    renderes = {}
+    renderers = {}
 
     def render(self, page):
-        return self.renderes[page['extension']](page['raw_content'] or '')
+        return self.renderers[page['extension']](page['raw_content'] or '')
 
     def add_renderer(self, extensions, function):
         for extension in extensions:
-            self.renderes[extension] = function
+            self.renderers[extension] = function
 
     @classmethod
     def default(cls):
