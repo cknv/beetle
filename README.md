@@ -11,6 +11,7 @@ I should give credit where credit is due, so:
 * [Mike Cooper](http://mythmon.com/) for [wok](https://github.com/mythmon/wok), and showing me there is a simple way to make a static blog - I could easily have ended up using wok or a patched version thereof.
 * [Jeff Knupp](http://www.jeffknupp.com/) for pointing out that it's ok to make your own static blog engine, since it's so simple.
 * [Kasper Jacobsen](http://mackwerk.dk/) for being the first guinea pig and giving much needed feedback.
+* [Jeppe Toustrup](http://tenzer.dk) for also giving valuable feedback.
 
 Gaps and missing stuff:
 -----------------------
