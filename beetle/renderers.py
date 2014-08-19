@@ -7,7 +7,7 @@ class MissingTemplateError(BeetleError):
     pass
 
 
-class CannotRenderContent(BeetleError):
+class MissingRendererError(BeetleError):
     pass
 
 
@@ -42,7 +42,7 @@ class ContentRenderer:
 
     def render(self, page):
         if page['extension'] not in self.renderers:
-            raise CannotRenderContent
+            raise MissingRendererError
 
         return self.renderers[page['extension']](page['raw_content'] or '')
 
