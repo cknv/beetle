@@ -29,7 +29,7 @@ class TemplateRenderer:
         if page['type'] not in self.templates:
             msg = 'Missing template: {} for file: {}'.format(
                 page['type'],
-                page['filename'],
+                page['path'],
             )
             raise MissingTemplateError(msg, page=page)
 
@@ -47,7 +47,7 @@ class ContentRenderer:
     def render(self, page):
         if page['extension'] not in self.renderers:
             msg = 'Cannot render page with extension: "{}"'.format(
-                page['filename']
+                page['path']
             )
             raise MissingRendererError(msg, page=page)
 

@@ -114,9 +114,7 @@ def give_subpages(site):
 
 
 def make_page(path, page_defaults):
-    page = {
-        'filename': path,
-    }
+    page = {}
     page.update(page_defaults)
     _, extension = os.path.splitext(path)
     page['extension'] = extension.strip('.')
@@ -164,14 +162,14 @@ def make_url(page):
         except KeyError as err:
             # It would be neat to use the error to inform more.
             'Missing field for url_pattern in file: {}'.format(
-                page['filename']
+                page['path']
             )
             raise NoUrlError(msg, page)
     else:
         # Oh oh, there is not even any url_pattern.
         # Throw exception, since we need something to make urls from.
         msg = 'No url or url_pattern, in file: {}'.format(
-            page['filename']
+            page['path']
         )
         raise NoUrlError(msg, page=page)
 
