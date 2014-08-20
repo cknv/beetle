@@ -154,16 +154,17 @@ def make_slug(page):
         return None
 
 def make_url(page):
-    try:
-        if 'url' in page:
-            return page['url']
-        elif 'url_pattern' in page:
+    if 'url' in page:
+        return page['url']
+    elif 'url_pattern' in page:
+        try:
             return page['url_pattern'].format(**page)
-        else:
-            # Oh oh, there is not even any url_pattern.
-            # Throw exception, since we need something to make urls from.
+        except KeyError as err:
+            # It would be neat to use the error to inform more.
             raise NoUrlError(page=page)
-    except Exception:
+    else:
+        # Oh oh, there is not even any url_pattern.
+        # Throw exception, since we need something to make urls from.
         raise NoUrlError(page=page)
 
 def make_date(page):
