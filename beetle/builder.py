@@ -133,6 +133,9 @@ def make_page(path, page_defaults):
 
         page.update(page_config)
 
+        # include the path
+        page['path'] = path
+
         # make slugs
         page['slug'] = make_slug(page)
 
@@ -159,9 +162,9 @@ def make_url(page):
         else:
             # Oh oh, there is not even any url_pattern.
             # Throw exception, since we need something to make urls from.
-            raise NoUrlError
+            raise NoUrlError(page=page)
     except Exception:
-        raise NoUrlError
+        raise NoUrlError(page=page)
 
 def make_date(page):
     if 'date' in page:
