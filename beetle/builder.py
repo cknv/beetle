@@ -114,7 +114,9 @@ def give_subpages(site):
 
 
 def make_page(path, page_defaults):
-    page = {}
+    page = {
+        'filename': path,
+    }
     page.update(page_defaults)
     _, extension = os.path.splitext(path)
     page['extension'] = extension.strip('.')
