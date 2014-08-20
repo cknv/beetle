@@ -163,11 +163,17 @@ def make_url(page):
             return page['url_pattern'].format(**page)
         except KeyError as err:
             # It would be neat to use the error to inform more.
-            raise NoUrlError(page=page)
+            'Missing field for url_pattern in file: {}'.format(
+                page['filename']
+            )
+            raise NoUrlError(msg, page)
     else:
         # Oh oh, there is not even any url_pattern.
         # Throw exception, since we need something to make urls from.
-        raise NoUrlError(page=page)
+        msg = 'No url or url_pattern, in file: {}'.format(
+            page['filename']
+        )
+        raise NoUrlError(msg, page=page)
 
 def make_date(page):
     if 'date' in page:

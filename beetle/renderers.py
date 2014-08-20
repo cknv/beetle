@@ -27,7 +27,11 @@ class TemplateRenderer:
 
     def render_page(self, page, site):
         if page['type'] not in self.templates:
-            raise MissingTemplateError(page=page)
+            msg = 'Missing template: {} for file: {}'.format(
+                page['type'],
+                page['filename'],
+            )
+            raise MissingTemplateError(msg, page=page)
 
         template = self.templates[page['type']]
         return template.render(page=page, site=site, beetle=self.beetle_about)
@@ -42,7 +46,10 @@ class ContentRenderer:
 
     def render(self, page):
         if page['extension'] not in self.renderers:
-            raise MissingRendererError(page=page)
+            msg = 'Cannot render page with extension: "{}"'.format(
+                page['filename']
+            )
+            raise MissingRendererError(msg, page=page)
 
         return self.renderers[page['extension']](page['raw_content'] or '')
 
