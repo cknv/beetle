@@ -161,7 +161,7 @@ def make_url(page):
         try:
             return page['url_pattern'].format(**page)
         except KeyError as err:
-            'Missing field for url_pattern in file: {}'.format(
+            msg = 'Missing field for url_pattern in file: {}'.format(
                 page['path']
             )
             raise NoUrlError(msg, page)
