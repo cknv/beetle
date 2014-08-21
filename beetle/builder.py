@@ -153,6 +153,7 @@ def make_slug(page):
         # Erh. What else can we build slugs from?
         return None
 
+
 def make_url(page):
     if 'url' in page:
         return page['url']
@@ -171,6 +172,7 @@ def make_url(page):
             page['path']
         )
         raise NoUrlError(msg, page=page)
+
 
 def make_date(page):
     if 'date' in page:
