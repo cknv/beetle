@@ -18,13 +18,11 @@ Gaps and missing stuff:
 There are some areas that I know I want to work on and improve, these are (in no particular order):
 
 * Tests!
+* A separate writer.
 * Page defaults by category.
-* ~~Content rendering by file extensions.~~ Support more markup languages.
 * Multipages - pages that render into several pages, useful for some tag pages/feeds.
-* ~~Better subpage handling.~~
 * Pagination of subpages.
 * Actual pypi distribution.
-* Better development server.
 
 Name
 ----
