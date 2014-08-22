@@ -53,7 +53,8 @@ def main():
         )
 
     if len(sys.argv) > 1:
-        command = sys.argv[1]
-        commander.run(command)
+        bin_beetle, *args = sys.argv
+        for command in args:
+            commander.run(command)
     else:
         commander.help()
