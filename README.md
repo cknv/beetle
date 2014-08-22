@@ -24,6 +24,12 @@ There are some areas that I know I want to work on and improve, these are (in no
 * Pagination of subpages.
 * Actual pypi distribution.
 
+
+Example Sites
+-------------
+
+* The site for which beetle was made: [cknv.dk](http://cknv.dk) and it's repo [github.com/cknv/cknv.dk](https://github.com/cknv/cknv.dk).
+
 Name
 ----
 
