@@ -174,13 +174,6 @@ def make_url(page):
         raise NoUrlError(msg, page=page)
 
 
-def make_date(page):
-    if 'date' in page:
-        return page['date']
-    else:
-        return datetime.utcnow()
-
-
 def group_pages(site):
     for options in site.get('grouping', []):
         field = options['field']
