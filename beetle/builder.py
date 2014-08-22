@@ -1,11 +1,15 @@
 from .renderers import TemplateRenderer
-from . import version, project_url, name
+from . import version, project_url, name, BeetleError
 from slugify import slugify
 from collections import defaultdict
 from datetime import datetime
 import yaml
 import distutils.core
 import os
+
+
+class NoUrlError(BeetleError):
+    pass
 
 
 class GroupKey:
@@ -129,6 +133,9 @@ def make_page(path, page_defaults):
 
         page.update(page_config)
 
+        # include the path
+        page['path'] = path
+
         # make slugs
         page['slug'] = make_slug(page)
 
@@ -144,18 +151,27 @@ def make_slug(page):
         return slugify(page['title'].lower())
     else:
         # Erh. What else can we build slugs from?
-        pass
+        return None
 
 
 def make_url(page):
     if 'url' in page:
         return page['url']
     elif 'url_pattern' in page:
-        return page['url_pattern'].format(**page)
+        try:
+            return page['url_pattern'].format(**page)
+        except KeyError as err:
+            msg = 'Missing field for url_pattern in file: {}'.format(
+                page['path']
+            )
+            raise NoUrlError(msg, page)
     else:
         # Oh oh, there is not even any url_pattern.
         # Throw exception, since we need something to make urls from.
-        pass
+        msg = 'No url or url_pattern, in file: {}'.format(
+            page['path']
+        )
+        raise NoUrlError(msg, page=page)
 
 
 def make_date(page):

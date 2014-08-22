@@ -1,5 +1,14 @@
 from jinja2 import Environment, FileSystemLoader
+from . import BeetleError
 import os
+
+
+class MissingTemplateError(BeetleError):
+    pass
+
+
+class MissingRendererError(BeetleError):
+    pass
 
 
 class TemplateRenderer:
@@ -17,6 +26,13 @@ class TemplateRenderer:
             yield name, self.env.get_template(template_file)
 
     def render_page(self, page, site):
+        if page['type'] not in self.templates:
+            msg = 'Missing template: {} for file: {}'.format(
+                page['type'],
+                page['path'],
+            )
+            raise MissingTemplateError(msg, page=page)
+
         template = self.templates[page['type']]
         return template.render(page=page, site=site, beetle=self.beetle_about)
 
@@ -29,6 +45,12 @@ class ContentRenderer:
     renderers = {}
 
     def render(self, page):
+        if page['extension'] not in self.renderers:
+            msg = 'Cannot render page with extension: "{}"'.format(
+                page['path']
+            )
+            raise MissingRendererError(msg, page=page)
+
         return self.renderers[page['extension']](page['raw_content'] or '')
 
     def add_renderer(self, extensions, function):
