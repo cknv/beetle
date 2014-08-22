@@ -73,7 +73,7 @@ class Builder:
             html_page = self.template_renderer.render_page(page, self.site)
             if not os.path.exists(destination_folder):
                 os.makedirs(destination_folder)
-            with open(destination, 'w+') as output:
+            with open(destination, 'w+', encoding='utf8') as output:
                 output.write(html_page)
 
 
@@ -118,7 +118,7 @@ def make_page(path, page_defaults):
     page.update(page_defaults)
     _, extension = os.path.splitext(path)
     page['extension'] = extension.strip('.')
-    with open(path) as f:
+    with open(path, encoding='utf-8') as f:
         raw = f.read().split('---', 1)
 
         page_config = yaml.load(raw[0]) or {}
