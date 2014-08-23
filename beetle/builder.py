@@ -136,10 +136,10 @@ def make_page(path, page_defaults):
         # include the path
         page['path'] = path
 
-        # make slugs
+        # make slug
         page['slug'] = make_slug(page)
 
-        # make urls
+        # make url
         page['url'] = make_url(page)
     return page
 
@@ -166,8 +166,8 @@ def make_url(page):
             )
             raise NoUrlError(msg, page)
     else:
-        # Oh oh, there is not even any url_pattern.
-        # Throw exception, since we need something to make urls from.
+        # Oh oh, beetle cannot make urls out of thin air.
+        # This page does not belong anywhere.
         msg = 'No url or url_pattern, in file: {}'.format(
             page['path']
         )
