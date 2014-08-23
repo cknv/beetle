@@ -2,7 +2,16 @@ import importlib
 from .builder import Builder
 from .base import Config
 from .renderers import ContentRenderer
+import shutil
 import sys
+import os
+
+
+def cleaner(folders):
+    def clean():
+        shutil.rmtree(folders['output'])
+        os.mkdir(folders['output'])
+    return clean
 
 
 class Commander:
@@ -41,6 +50,7 @@ def main():
 
     # Got to provide a command to render.
     commander.add('render', builder.run, 'Render the site')
+    commander.add('clean', cleaner(config.folders), 'Delete rendered output')
 
     for plugin_config in config.plugins:
         plugin_module = importlib.import_module(plugin_config['name'])
