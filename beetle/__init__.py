@@ -1,4 +1,4 @@
-name = 'beetle'
+name = 'Beetle'
 version = '0.4.2'
 project_url = 'https://github.com/cknv/beetle'
 
