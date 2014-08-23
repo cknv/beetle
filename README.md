@@ -3,7 +3,7 @@ Beetle
 
 Beetle is a simple static site generator, mostly driven by NIH thinking and a desire to have very little dictated from the engine.
 
-So far, it works for me (TM), and I think I can guarantee that you will find it clunky and hard to work with. Especially from the lack of documentation. There is an example of a very basic site at [beetle-example](https://github.com/Tenzer/beetle-example) which can be a help for now. And the original beetle blog can be found at [github.com/cknv/cknv.dk](https://github.com/cknv/cknv.dk) and the output at [cknv.dk](http://cknv.dk).
+So far, it works for me (TM), and I think I can guarantee that you will find it clunky and hard to work with. Especially from the lack of documentation.
 
 I should give credit where credit is due, so:
 
@@ -17,7 +17,8 @@ Gaps and missing stuff:
 -----------------------
 There are some areas that I know I want to work on and improve, these are (in no particular order):
 
-* Tests!
+* Documentation.
+* Tests.
 * A separate writer.
 * Page defaults by category.
 * Multipages - pages that render into several pages, useful for some tag pages/feeds.
@@ -29,6 +30,7 @@ Example Sites
 -------------
 
 * The site for which beetle was made: [cknv.dk](http://cknv.dk) and it's repo [github.com/cknv/cknv.dk](https://github.com/cknv/cknv.dk).
+* Very basic example at [https://github.com/Tenzer/beetle-example](github.com/Tenzer/beetle-example).
 
 Name
 ----
