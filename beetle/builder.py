@@ -73,7 +73,7 @@ class Builder:
             html_page = self.template_renderer.render_page(page, self.site)
             if not os.path.exists(destination_folder):
                 os.makedirs(destination_folder)
-            with open(destination, 'w+') as output:
+            with open(destination, 'w+', encoding='utf8') as output:
                 output.write(html_page)
 
 
@@ -118,7 +118,7 @@ def make_page(path, page_defaults):
     page.update(page_defaults)
     _, extension = os.path.splitext(path)
     page['extension'] = extension.strip('.')
-    with open(path) as f:
+    with open(path, encoding='utf-8') as f:
         raw = f.read().split('---', 1)
 
         page_config = yaml.load(raw[0]) or {}
@@ -136,10 +136,10 @@ def make_page(path, page_defaults):
         # include the path
         page['path'] = path
 
-        # make slugs
+        # make slug
         page['slug'] = make_slug(page)
 
-        # make urls
+        # make url
         page['url'] = make_url(page)
     return page
 
@@ -166,19 +166,12 @@ def make_url(page):
             )
             raise NoUrlError(msg, page)
     else:
-        # Oh oh, there is not even any url_pattern.
-        # Throw exception, since we need something to make urls from.
+        # Oh oh, beetle cannot make urls out of thin air.
+        # This page does not belong anywhere.
         msg = 'No url or url_pattern, in file: {}'.format(
             page['path']
         )
         raise NoUrlError(msg, page=page)
-
-
-def make_date(page):
-    if 'date' in page:
-        return page['date']
-    else:
-        return datetime.utcnow()
 
 
 def group_pages(site):
