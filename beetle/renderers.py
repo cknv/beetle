@@ -3,6 +3,10 @@ from . import BeetleError
 import os
 
 
+class MissingTypeError(BeetleError):
+    pass
+
+
 class MissingTemplateError(BeetleError):
     pass
 
@@ -26,6 +30,11 @@ class TemplateRenderer:
             yield name, self.env.get_template(template_file)
 
     def render_page(self, page, site):
+        if 'type' not in page:
+            msg = 'Missing type for file: {}'.format(
+                page['path']
+            )
+            raise MissingTypeError(msg, page=page)
         if page['type'] not in self.templates:
             msg = 'Missing template: {} for file: {}'.format(
                 page['type'],
