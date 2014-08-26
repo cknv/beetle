@@ -34,6 +34,10 @@ def default_copy(path, output):
 class Includer(object):
     specific = {}
 
+    def add(self, extensions, function):
+        for extension in extensions:
+            self.specific[extension] = function
+
     def __init__(self, folders, output):
         self.folders = folders
         self.output = output
