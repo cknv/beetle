@@ -25,3 +25,23 @@ class Config:
         with open(path) as fo:
             data = yaml.load(fo.read())
             return cls(data)
+
+
+def default_copy(path, output):
+    pass
+
+
+class Includer(object):
+    specific = {}
+
+    def __init__(self, folders, output):
+        self.folders = folders
+        self.output = output
+
+    def __call__(self):
+        for path in folders:
+            pass
+        if extension in self.specific:
+            self.specific[extension]()
+        else:
+            default_copy(path, output)
