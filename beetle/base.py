@@ -1,4 +1,5 @@
 import yaml
+import os
 
 
 class Config:
@@ -38,14 +39,25 @@ class Includer(object):
         for extension in extensions:
             self.specific[extension] = function
 
-    def __init__(self, folders, output):
-        self.folders = folders
-        self.output = output
+    def __init__(self, folders):
+        self.include = folders['include']
+        self.output = folders['output']
 
-    def __call__(self):
-        for path in folders:
-            pass
-        if extension in self.specific:
-            self.specific[extension]()
-        else:
-            default_copy(path, output)
+    def files(self):
+        for folder, __, filenames in os.walk(self.include):
+            for filename in filenames:
+                origin = os.path.join(folder, filename)
+                destination = origin.replace(self.include, self.output)
+                with open(origin, mode='rb') as fo:
+                    yield destination, fo.read()
+
+
+class Writer(object):
+    file_handler = {}
+
+    def add(self, extentions, function):
+        for extension in extentions:
+            self.file_handler[extension] = function
+
+    # def write(self, origin, destination):
+    #     destination
