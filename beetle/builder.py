@@ -57,24 +57,22 @@ class Builder:
 
         render_pages(self.site['pages'], self.content_renderer)
 
-        self.write_pages()
+        # self.write_pages()
 
-        copy_include_folder(self.folders['include'], self.folders['output'])
+        # copy_include_folder(self.folders['include'], self.folders['output'])
 
     def page_paths(self):
         for folder, _, files in os.walk(self.folders['content']):
             for file_name in files:
                 yield os.path.join(folder, file_name)
 
-    def write_pages(self):
+    def __iter__(self):
+        self.run()
         for page in self.site['pages']:
             destination = build_destination(page, self.folders['output'])
             destination_folder = os.path.dirname(destination)
             html_page = self.template_renderer.render_page(page, self.site)
-            if not os.path.exists(destination_folder):
-                os.makedirs(destination_folder)
-            with open(destination, 'w+', encoding='utf8') as output:
-                output.write(html_page)
+            yield destination, html_page.encode('utf-8')
 
 
 def build_destination(page, folder):
@@ -212,6 +210,6 @@ def render_pages(pages, renderer):
         page['content'] = renderer.render(page)
 
 
-def copy_include_folder(origin, destination):
-    if os.path.exists(origin):
-        distutils.dir_util.copy_tree(origin, destination)
+# def copy_include_folder(origin, destination):
+#     if os.path.exists(origin):
+#         distutils.dir_util.copy_tree(origin, destination)

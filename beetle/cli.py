@@ -1,6 +1,6 @@
 import importlib
 from .builder import Builder
-from .base import Config
+from .base import Config, Includer, Writer
 from .renderers import ContentRenderer
 import shutil
 import sys
@@ -46,10 +46,16 @@ def main():
     config = Config.from_path('config.yaml')
     content_renderer = ContentRenderer.default()
     builder = Builder(config, content_renderer)
+    includer = Includer(config.folders)
+
+    writer = Writer()
+    writer.add(includer)
+    writer.add(builder)
+
     commander = Commander()
 
     # Got to provide a command to render.
-    commander.add('render', builder.run, 'Render the site')
+    commander.add('render', writer.write, 'Render the site')
     commander.add('clean', cleaner(config.folders), 'Delete rendered output')
 
     for plugin_config in config.plugins:

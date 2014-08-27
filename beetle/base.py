@@ -43,7 +43,7 @@ class Includer(object):
         self.include = folders['include']
         self.output = folders['output']
 
-    def files(self):
+    def __iter__(self):
         for folder, __, filenames in os.walk(self.include):
             for filename in filenames:
                 origin = os.path.join(folder, filename)
@@ -53,11 +53,20 @@ class Includer(object):
 
 
 class Writer(object):
-    file_handler = {}
+    generators = []
 
-    def add(self, extentions, function):
-        for extension in extentions:
-            self.file_handler[extension] = function
+    def add(self, generator):
+        self.generators.append(generator)
 
-    # def write(self, origin, destination):
-    #     destination
+    def write(self):
+        for generator in self.generators:
+            for destination, content in generator:
+                print(type(content), destination)
+
+                destination_folder = os.path.dirname(destination)
+
+                if not os.path.exists(destination_folder):
+                    os.makedirs(destination_folder)
+
+                with open(destination, 'wb') as fo:
+                    fo.write(content)
