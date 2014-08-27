@@ -57,10 +57,6 @@ class Builder:
 
         render_pages(self.site['pages'], self.content_renderer)
 
-        # self.write_pages()
-
-        # copy_include_folder(self.folders['include'], self.folders['output'])
-
     def page_paths(self):
         for folder, _, files in os.walk(self.folders['content']):
             for file_name in files:
@@ -70,7 +66,6 @@ class Builder:
         self.run()
         for page in self.site['pages']:
             destination = build_destination(page, self.folders['output'])
-            destination_folder = os.path.dirname(destination)
             html_page = self.template_renderer.render_page(page, self.site)
             yield destination, html_page.encode('utf-8')
 
