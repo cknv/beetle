@@ -28,8 +28,9 @@ class Config:
             return cls(data)
 
 
-def default_copy(path, output):
-    pass
+def default_read(path):
+    with open(path, 'rb') as fo:
+        return fo.read()
 
 
 class Includer(object):
@@ -38,6 +39,13 @@ class Includer(object):
     def add(self, extensions, function):
         for extension in extensions:
             self.specific[extension] = function
+
+    def read(self, path):
+        extension = os.path.splitext(path)
+        if extension in self.specific:
+            return self.specific[extension](path)
+        else:
+            return default_read(path)
 
     def __init__(self, folders):
         self.include = folders['include']
@@ -48,8 +56,7 @@ class Includer(object):
             for filename in filenames:
                 origin = os.path.join(folder, filename)
                 destination = origin.replace(self.include, self.output)
-                with open(origin, mode='rb') as fo:
-                    yield destination, fo.read()
+                yield destination, self.read(origin)
 
 
 class Writer(object):
