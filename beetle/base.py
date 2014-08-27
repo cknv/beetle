@@ -61,8 +61,6 @@ class Writer(object):
     def write(self):
         for generator in self.generators:
             for destination, content in generator:
-                # print(type(content), destination)
-
                 destination_folder = os.path.dirname(destination)
 
                 if not os.path.exists(destination_folder):
