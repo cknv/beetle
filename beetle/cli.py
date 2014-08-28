@@ -65,7 +65,8 @@ def main():
             config,
             commander,
             builder,
-            content_renderer
+            content_renderer,
+            includer,
         )
 
     if len(sys.argv) > 1:
