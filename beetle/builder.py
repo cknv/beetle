@@ -203,8 +203,3 @@ def group_pages(site):
 def render_pages(pages, renderer):
     for page in pages:
         page['content'] = renderer.render(page)
-
-
-# def copy_include_folder(origin, destination):
-#     if os.path.exists(origin):
-#         distutils.dir_util.copy_tree(origin, destination)
