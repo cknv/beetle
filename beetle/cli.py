@@ -20,8 +20,9 @@ class Commander:
     def __init__(self):
         self.add('help', self.help, 'Show this help output')
 
-    def add(self, command, function, help='(No description available)'):
-        self.commands[command] = {
+    @classmethod
+    def add(cls, command, function, help='(No description available)'):
+        cls.commands[command] = {
             'function': function,
             'help': help
         }
@@ -60,14 +61,15 @@ def main():
 
     for plugin_config in config.plugins:
         plugin_module = importlib.import_module(plugin_config['name'])
-        plugin_module.register(
-            plugin_config,
-            config,
-            commander,
-            builder,
-            content_renderer,
-            includer,
-        )
+        # plugin_module.register(
+        #     plugin_config,
+        #     config,
+        #     commander,
+        #     builder,
+        #     content_renderer,
+        #     includer,
+        # )
+        plugin_module.register(plugin_config, config)
 
     if len(sys.argv) > 1:
         bin_beetle, *args = sys.argv

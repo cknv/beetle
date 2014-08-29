@@ -62,8 +62,9 @@ class Includer(object):
 class Writer(object):
     generators = []
 
-    def add(self, generator):
-        self.generators.append(generator)
+    @classmethod
+    def add(cls, generator):
+        cls.generators.append(generator)
 
     def write(self):
         for generator in self.generators:

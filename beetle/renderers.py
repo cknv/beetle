@@ -62,9 +62,10 @@ class ContentRenderer:
 
         return self.renderers[page['extension']](page['raw_content'] or '')
 
-    def add_renderer(self, extensions, function):
+    @classmethod
+    def add_renderer(cls, extensions, function):
         for extension in extensions:
-            self.renderers[extension] = function
+            cls.renderers[extension] = function
 
     @classmethod
     def default(cls):
