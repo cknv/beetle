@@ -1,4 +1,5 @@
 import yaml
+import os
 
 
 class Config:
@@ -25,3 +26,52 @@ class Config:
         with open(path) as fo:
             data = yaml.load(fo.read())
             return cls(data)
+
+
+def default_read(path):
+    with open(path, 'rb') as fo:
+        return fo.read()
+
+
+class Includer(object):
+    specific = {}
+
+    def add(self, extensions, function):
+        for extension in extensions:
+            self.specific[extension] = function
+
+    def read(self, path):
+        extension = os.path.splitext(path)
+        if extension in self.specific:
+            return self.specific[extension](path)
+        else:
+            return default_read(path)
+
+    def __init__(self, folders):
+        self.include = folders['include']
+        self.output = folders['output']
+
+    def __iter__(self):
+        for folder, __, filenames in os.walk(self.include):
+            for filename in filenames:
+                origin = os.path.join(folder, filename)
+                destination = origin.replace(self.include, self.output)
+                yield destination, self.read(origin)
+
+
+class Writer(object):
+    generators = []
+
+    def add(self, generator):
+        self.generators.append(generator)
+
+    def write(self):
+        for generator in self.generators:
+            for destination, content in generator:
+                destination_folder = os.path.dirname(destination)
+
+                if not os.path.exists(destination_folder):
+                    os.makedirs(destination_folder)
+
+                with open(destination, 'wb') as fo:
+                    fo.write(content)

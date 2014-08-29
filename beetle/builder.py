@@ -13,9 +13,9 @@ class NoUrlError(BeetleError):
 
 
 class GroupKey:
-    def __init__(self, name, slug):
+    def __init__(self, name):
         self.name = name
-        self.slug = slug
+        self.slug = slugify(name)
 
     def __hash__(self):
         return hash(self.name)
@@ -43,7 +43,12 @@ class Builder:
         )
         self.content_renderer = content_renderer
 
-    def run(self):
+    def page_paths(self):
+        for folder, _, files in os.walk(self.folders['content']):
+            for file_name in files:
+                yield os.path.join(folder, file_name)
+
+    def __iter__(self):
         pages = make_pages(self.page_paths(), self.page_defaults)
         pages = list(pages)
 
@@ -57,24 +62,10 @@ class Builder:
 
         render_pages(self.site['pages'], self.content_renderer)
 
-        self.write_pages()
-
-        copy_include_folder(self.folders['include'], self.folders['output'])
-
-    def page_paths(self):
-        for folder, _, files in os.walk(self.folders['content']):
-            for file_name in files:
-                yield os.path.join(folder, file_name)
-
-    def write_pages(self):
         for page in self.site['pages']:
             destination = build_destination(page, self.folders['output'])
-            destination_folder = os.path.dirname(destination)
             html_page = self.template_renderer.render_page(page, self.site)
-            if not os.path.exists(destination_folder):
-                os.makedirs(destination_folder)
-            with open(destination, 'w+', encoding='utf8') as output:
-                output.write(html_page)
+            yield destination, html_page.encode('utf-8')
 
 
 def build_destination(page, folder):
@@ -109,7 +100,7 @@ def give_subpages(site):
         if secondary == '*':
             page['subpages'] = site['groups'][primary]
         else:
-            secondary_key = GroupKey(name=secondary, slug=slugify(secondary))
+            secondary_key = GroupKey(name=secondary)
             page['subpages'] = site['groups'][primary][secondary_key]
 
 
@@ -190,14 +181,14 @@ def group_pages(site):
                     key = page[field]
                 else:
                     value = page[field]
-                    key = GroupKey(name=value, slug=slugify(value))
+                    key = GroupKey(name=value)
                 page[field] = key
                 grouping[key].append(page)
             else:
                 values = page[field]
                 page[field] = []
                 for value in values:
-                    key = GroupKey(name=value, slug=slugify(value))
+                    key = GroupKey(name=value)
                     page[field].append(key)
                     grouping[key].append(page)
 
@@ -210,8 +201,3 @@ def group_pages(site):
 def render_pages(pages, renderer):
     for page in pages:
         page['content'] = renderer.render(page)
-
-
-def copy_include_folder(origin, destination):
-    if os.path.exists(origin):
-        distutils.dir_util.copy_tree(origin, destination)
