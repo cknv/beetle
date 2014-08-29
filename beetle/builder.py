@@ -13,9 +13,9 @@ class NoUrlError(BeetleError):
 
 
 class GroupKey:
-    def __init__(self, name, slug):
+    def __init__(self, name):
         self.name = name
-        self.slug = slug
+        self.slug = slugify(name)
 
     def __hash__(self):
         return hash(self.name)
@@ -100,7 +100,7 @@ def give_subpages(site):
         if secondary == '*':
             page['subpages'] = site['groups'][primary]
         else:
-            secondary_key = GroupKey(name=secondary, slug=slugify(secondary))
+            secondary_key = GroupKey(name=secondary)
             page['subpages'] = site['groups'][primary][secondary_key]
 
 
@@ -181,14 +181,14 @@ def group_pages(site):
                     key = page[field]
                 else:
                     value = page[field]
-                    key = GroupKey(name=value, slug=slugify(value))
+                    key = GroupKey(name=value)
                 page[field] = key
                 grouping[key].append(page)
             else:
                 values = page[field]
                 page[field] = []
                 for value in values:
-                    key = GroupKey(name=value, slug=slugify(value))
+                    key = GroupKey(name=value)
                     page[field].append(key)
                     grouping[key].append(page)
 
