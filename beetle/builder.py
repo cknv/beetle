@@ -43,7 +43,12 @@ class Builder:
         )
         self.content_renderer = content_renderer
 
-    def run(self):
+    def page_paths(self):
+        for folder, _, files in os.walk(self.folders['content']):
+            for file_name in files:
+                yield os.path.join(folder, file_name)
+
+    def __iter__(self):
         pages = make_pages(self.page_paths(), self.page_defaults)
         pages = list(pages)
 
@@ -57,13 +62,6 @@ class Builder:
 
         render_pages(self.site['pages'], self.content_renderer)
 
-    def page_paths(self):
-        for folder, _, files in os.walk(self.folders['content']):
-            for file_name in files:
-                yield os.path.join(folder, file_name)
-
-    def __iter__(self):
-        self.run()
         for page in self.site['pages']:
             destination = build_destination(page, self.folders['output'])
             html_page = self.template_renderer.render_page(page, self.site)
