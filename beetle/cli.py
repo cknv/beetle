@@ -61,14 +61,6 @@ def main():
 
     for plugin_config in config.plugins:
         plugin_module = importlib.import_module(plugin_config['name'])
-        # plugin_module.register(
-        #     plugin_config,
-        #     config,
-        #     commander,
-        #     builder,
-        #     content_renderer,
-        #     includer,
-        # )
         plugin_module.register(plugin_config, config)
 
     if len(sys.argv) > 1:
