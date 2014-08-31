@@ -66,13 +66,17 @@ class Writer(object):
     def add(cls, generator):
         cls.generators.append(generator)
 
-    def write(self):
+    def files(self):
         for generator in self.generators:
             for destination, content in generator:
-                destination_folder = os.path.dirname(destination)
+                yield destination, content
 
-                if not os.path.exists(destination_folder):
-                    os.makedirs(destination_folder)
+    def write(self):
+        for destination, content in self.files:
+            destination_folder = os.path.dirname(destination)
 
-                with open(destination, 'wb') as fo:
-                    fo.write(content)
+            if not os.path.exists(destination_folder):
+                os.makedirs(destination_folder)
+
+            with open(destination, 'wb') as fo:
+                fo.write(content)
