@@ -73,10 +73,13 @@ class Writer(object):
 
     def write(self):
         for destination, content in self.files():
-            destination_folder = os.path.dirname(destination)
+            self.write_file(destination, content)
 
-            if not os.path.exists(destination_folder):
-                os.makedirs(destination_folder)
+    def write_file(self, destination, content):
+        destination_folder = os.path.dirname(destination)
 
-            with open(destination, 'wb') as fo:
-                fo.write(content)
+        if not os.path.exists(destination_folder):
+            os.makedirs(destination_folder)
+
+        with open(destination, 'wb') as fo:
+            fo.write(content)
