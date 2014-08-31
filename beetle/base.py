@@ -72,7 +72,7 @@ class Writer(object):
                 yield destination, content
 
     def write(self):
-        for destination, content in self.files:
+        for destination, content in self.files():
             destination_folder = os.path.dirname(destination)
 
             if not os.path.exists(destination_folder):
