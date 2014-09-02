@@ -69,20 +69,17 @@ class Builder:
 
 
 def build_destination(page, folder):
-    if page['url'].startswith('/'):
-        dest_template = '{folder}{path}'
-    else:
-        dest_template = '{folder}/{path}'
+    url = page['url']
 
-    _, extension = os.path.splitext(page['url'])
+    _, extension = os.path.splitext(url)
     if not extension:
         # This is a pretty url that points at a directory.
         # Add index.html to the destination.
-        dest_template = os.path.join(dest_template, 'index.html')
-    return dest_template.format(
-        folder=folder,
-        path=page['url'],
-    ).lower()
+        url = url + 'index.html'
+
+    if url.startswith('/'):
+        url = url[1:]
+    return url
 
 
 def make_pages(paths, page_defaults):

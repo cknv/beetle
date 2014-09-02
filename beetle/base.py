@@ -55,14 +55,15 @@ class Includer(object):
         for folder, __, filenames in os.walk(self.include):
             for filename in filenames:
                 origin = os.path.join(folder, filename)
-                destination = origin.replace(self.include, self.output)
+                __, destination = origin.split(os.sep, 1)
                 yield destination, self.read(origin)
 
 
 class Writer(object):
-    generators = []
+    def __init__(self, output_folder):
+        self.output_folder = output_folder
+        self.generators = []
 
-    @classmethod
     def add(cls, generator):
         cls.generators.append(generator)
 
@@ -76,8 +77,9 @@ class Writer(object):
             self.write_file(destination, content)
 
     def write_file(self, destination, content):
-        destination_folder = os.path.dirname(destination)
+        full_destination = os.path.join(self.output_folder, destination)
 
+        destination_folder = os.path.dirname(destination)
         if not os.path.exists(destination_folder):
             os.makedirs(destination_folder)
 

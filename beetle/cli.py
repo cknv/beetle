@@ -2,6 +2,7 @@ import importlib
 from .builder import Builder
 from .base import Config, Includer, Writer
 from .renderers import ContentRenderer
+from . import context
 import shutil
 import sys
 import os
@@ -49,7 +50,7 @@ def main():
     builder = Builder(config, content_renderer)
     includer = Includer(config.folders)
 
-    writer = Writer()
+    writer = Writer(config.folders['output'])
     writer.add(includer)
     writer.add(builder)
 
@@ -59,9 +60,16 @@ def main():
     commander.add('render', writer.write, 'Render the site')
     commander.add('clean', cleaner(config.folders), 'Delete rendered output')
 
+    # Set the current context.
+    context.content_renderer = content_renderer
+    context.writer = writer
+    context.includer = includer
+    context.commander = commander
+
     for plugin_config in config.plugins:
         plugin_module = importlib.import_module(plugin_config['name'])
         plugin_module.register(plugin_config, config)
+
 
     if len(sys.argv) > 1:
         bin_beetle, *args = sys.argv
