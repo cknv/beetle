@@ -34,8 +34,6 @@ def default_read(path):
 
 
 class Includer(object):
-    specific = {}
-
     def add(self, extensions, function):
         for extension in extensions:
             self.specific[extension] = function
@@ -50,6 +48,7 @@ class Includer(object):
     def __init__(self, folders):
         self.include = folders['include']
         self.output = folders['output']
+        self.specific = {}
 
     def __iter__(self):
         for folder, __, filenames in os.walk(self.include):
