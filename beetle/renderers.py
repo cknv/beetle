@@ -51,7 +51,8 @@ def render_plain(raw_content):
 
 
 class ContentRenderer:
-    renderers = {}
+    def __init__(self):
+        self.renderers = {}
 
     def render(self, page):
         if page['extension'] not in self.renderers:
