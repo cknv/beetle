@@ -5,7 +5,7 @@ setup(
     name=beetle.name,
     version=beetle.version,
     author='Esben Sonne',
-    author_email='esbensonne@gmail.com',
+    author_email='esbensonne+code@gmail.com',
     url=beetle.project_url,
     license='MIT',
     keywords='',
