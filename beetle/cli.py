@@ -44,6 +44,14 @@ class Commander:
             ))
 
 
+class BeetleContext(object):
+    def __init__(self):
+        self.commander = None
+        self.writer = None
+        self.config = None
+        self.includer = None
+
+
 def main():
     config = Config.from_path('config.yaml')
     content_renderer = ContentRenderer.default()
@@ -61,6 +69,9 @@ def main():
     commander.add('clean', cleaner(config.folders), 'Delete rendered output')
 
     # Set the current context.
+    context = BeetleContext()
+
+    context.config = config
     context.content_renderer = content_renderer
     context.writer = writer
     context.includer = includer
@@ -68,7 +79,7 @@ def main():
 
     for plugin_config in config.plugins:
         plugin_module = importlib.import_module(plugin_config['name'])
-        plugin_module.register(plugin_config, config)
+        plugin_module.register(context, plugin_config)
 
 
     if len(sys.argv) > 1:
