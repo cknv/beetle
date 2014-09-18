@@ -29,8 +29,9 @@ class Config:
 
 
 def default_read(path):
+    __, destination = path.split(os.sep, 1)
     with open(path, 'rb') as fo:
-        return path, fo.read()
+        return destination, fo.read()
 
 
 class Includer(object):
