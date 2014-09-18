@@ -19,6 +19,8 @@ setup(
     },
     classifiers=[
         'Development Status :: 3 - Alpha',
+        'Environment :: Console',
+        'Environment :: Web Environment',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Natural Language :: English',
