@@ -18,7 +18,14 @@ setup(
         ]
     },
     classifiers=[
-        '',
+        'Development Status :: 3 - Alpha',
+        'Intended Audience :: Developers',
+        'License :: OSI Approved :: MIT License',
+        'Natural Language :: English',
+        'Operating System :: OS Independent',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python',
+        'Topic :: Text Processing',
     ],
     install_requires=[
         'PyYAML==3.11',
