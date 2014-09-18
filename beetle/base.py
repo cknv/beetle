@@ -30,7 +30,7 @@ class Config:
 
 def default_read(path):
     with open(path, 'rb') as fo:
-        return fo.read()
+        return path, fo.read()
 
 
 class Includer(object):
@@ -54,8 +54,7 @@ class Includer(object):
         for folder, __, filenames in os.walk(self.include):
             for filename in filenames:
                 origin = os.path.join(folder, filename)
-                __, destination = origin.split(os.sep, 1)
-                yield destination, self.read(origin)
+                yield self.read(origin)
 
 
 class Writer(object):
