@@ -40,7 +40,7 @@ class Includer(object):
             self.specific[extension] = function
 
     def read(self, path):
-        extension = os.path.splitext(path)
+        extension = os.path.splitext(path)[1].strip('.')
         if extension in self.specific:
             return self.specific[extension](path)
         else:
