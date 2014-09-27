@@ -1,6 +1,13 @@
 Beetle
 ======
 
+Installation
+------------
+
+pip install beetle
+
+About
+-----
 Beetle is a simple static site generator, mostly driven by NIH thinking and a desire to have very little dictated from the engine.
 
 So far, it works for me (TM), and I think I can guarantee that you will find it clunky and hard to work with. Especially from the lack of documentation.
@@ -35,4 +42,4 @@ Example Sites
 Name
 ----
 
-Right now, this code is not published at pypi. Currently the name beetle is not taken (as far as I can see on pypi), but that may change. So I may have to rename the project if that happens, who knows?
+When I started writing beetle, I needed to call it something. I figured that something starting with B would be appropriate because it makes a blog. I picked beetle in honour of the [dung beetle](http://en.wikipedia.org/wiki/Dung_beetle), because at times it felt like I was pushing a large ball of dung in front of me, due to how I wanted it to work. Luckily it turned out good enough for me to actually use it.

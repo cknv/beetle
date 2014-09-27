@@ -30,8 +30,8 @@ setup(
         'Topic :: Text Processing',
     ],
     install_requires=[
-        'PyYAML==3.11',
-        'awesome-slugify==1.5',
-        'Jinja2==2.7.3',
+        'PyYAML',
+        'awesome-slugify',
+        'Jinja2',
     ],
 )
