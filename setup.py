@@ -6,6 +6,7 @@ setup(
     version=beetle.version,
     author='Esben Sonne',
     author_email='esbensonne+code@gmail.com',
+    description='Beetle is a simple static site generator',
     url=beetle.project_url,
     license='MIT',
     keywords='',
