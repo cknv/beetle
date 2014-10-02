@@ -37,7 +37,7 @@ Example Sites
 -------------
 
 * The site for which beetle was made: [cknv.dk](http://cknv.dk) and it's repo [github.com/cknv/cknv.dk](https://github.com/cknv/cknv.dk).
-* Very basic example at [https://github.com/Tenzer/beetle-example](github.com/Tenzer/beetle-example).
+* Very basic example at [https://github.com/Tenzer/beetle-example](https://github.com/Tenzer/beetle-example).
 
 Name
 ----
