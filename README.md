@@ -4,7 +4,17 @@ Beetle
 Installation
 ------------
 
+```shell
 pip install beetle
+```
+
+Plugins
+-------
+Just installing Beetle will only get you so far though, there is no support of any markup language, nor is there a local server so you can see what the site will look like. It is basic, and intended so.
+
+However...
+
+Beetle is made to be extensible, this means that instead of being forced to use a certain markup language, you can instead find (or write) a plugin that enabled you to use your favorite markup language, install it, tell Beetle about it and off you go!
 
 About
 -----
@@ -20,7 +30,7 @@ I should give credit where credit is due, so:
 * [Kasper Jacobsen](http://mackwerk.dk/) for being the first guinea pig and giving much needed feedback.
 * [Jeppe Toustrup](http://tenzer.dk) for also giving valuable feedback.
 
-Gaps and missing stuff:
+Gaps and missing stuff
 -----------------------
 There are some areas that I know I want to work on and improve, these are (in no particular order):
 
@@ -37,7 +47,7 @@ Example Sites
 -------------
 
 * The site for which beetle was made: [cknv.dk](http://cknv.dk) and it's repo [github.com/cknv/cknv.dk](https://github.com/cknv/cknv.dk).
-* Very basic example at [https://github.com/Tenzer/beetle-example](https://github.com/Tenzer/beetle-example).
+* Very basic example at [github.com/Tenzer/beetle-example](https://github.com/Tenzer/beetle-example).
 
 Name
 ----
