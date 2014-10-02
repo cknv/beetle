@@ -36,12 +36,9 @@ There are some areas that I know I want to work on and improve, these are (in no
 
 * Documentation.
 * Tests.
-* A separate writer.
 * Page defaults by category.
 * Multipages - pages that render into several pages, useful for some tag pages/feeds.
 * Pagination of subpages.
-* Actual pypi distribution.
-
 
 Example Sites
 -------------
