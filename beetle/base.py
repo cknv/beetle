@@ -47,6 +47,7 @@ class Includer(object):
         else:
             extension, content = default_read(path)
 
+        __, partial_path = partial_path.split(os.sep, 1)
         destination = '{path}.{extension}'.format(
             path=partial_path,
             extension=extension,
