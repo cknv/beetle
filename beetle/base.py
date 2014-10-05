@@ -40,11 +40,18 @@ class Includer(object):
             self.specific[extension] = function
 
     def read(self, path):
-        extension = os.path.splitext(path)[1].strip('.')
+        partial_path, extension = os.path.splitext(path)
+        extension = extension.strip('.')
         if extension in self.specific:
-            return self.specific[extension](path)
+            extension, content = self.specific[extension](path)
         else:
-            return default_read(path)
+            extension, content = default_read(path)
+
+        destination = '{path}.{extension}'.format(
+            path=partial_path,
+            extension=extension,
+        )
+        return destination, content
 
     def __init__(self, folders):
         self.include = folders['include']
