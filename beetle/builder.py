@@ -1,5 +1,6 @@
 from .renderers import TemplateRenderer
 from . import version, project_url, name, BeetleError
+from .utils import read_folder
 from slugify import slugify
 from collections import defaultdict
 from datetime import datetime
@@ -43,16 +44,14 @@ class Builder:
         )
         self.content_renderer = content_renderer
 
-    def page_paths(self):
-        for folder, _, files in os.walk(self.folders['content']):
-            for file_name in files:
-                yield os.path.join(folder, file_name)
-
     def __iter__(self):
-        pages = make_pages(self.page_paths(), self.page_defaults)
-        pages = list(pages)
+        page_generator = read_folder(self.folders['content'], mode='r')
+        # print(page_generator)
+        pages = make_pages(page_generator, self.page_defaults)
+        # pages = make_pages(self.page_paths(), self.page_defaults)
+        # pages = list(pages)
 
-        self.site['pages'] = pages
+        self.site['pages'] = list(pages)
 
         self.site['groups'] = {
             field: groups for field, groups in group_pages(self.site)
@@ -83,8 +82,8 @@ def build_destination(page, folder):
 
 
 def make_pages(paths, page_defaults):
-    for path in paths:
-        page = make_page(path, page_defaults)
+    for path, raw_content in paths:
+        page = make_page(path, raw_content, page_defaults)
         if page:
             yield page
 
@@ -101,34 +100,34 @@ def give_subpages(site):
             page['subpages'] = site['groups'][primary][secondary_key]
 
 
-def make_page(path, page_defaults):
+def make_page(path, raw_content, page_defaults):
     page = {}
     page.update(page_defaults)
     _, extension = os.path.splitext(path)
     page['extension'] = extension.strip('.')
-    with open(path, encoding='utf-8') as f:
-        raw = f.read().split('---', 1)
 
-        page_config = yaml.load(raw[0]) or {}
+    raw = raw_content.split('---', 1)
 
-        try:
-            page['raw_content'] = raw[1]
-        except:
-            page['raw_content'] = None
+    page_config = yaml.load(raw[0]) or {}
 
-        if not page_config.get('published', True):
-            return
+    try:
+        page['raw_content'] = raw[1]
+    except:
+        page['raw_content'] = None
 
-        page.update(page_config)
+    if not page_config.get('published', True):
+        return
 
-        # include the path
-        page['path'] = path
+    page.update(page_config)
 
-        # make slug
-        page['slug'] = make_slug(page)
+    # include the path
+    page['path'] = path
 
-        # make url
-        page['url'] = make_url(page)
+    # make slug
+    page['slug'] = make_slug(page)
+
+    # make url
+    page['url'] = make_url(page)
     return page
 
 

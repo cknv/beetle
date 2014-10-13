@@ -1,6 +1,8 @@
 import yaml
 import os
 
+from .utils import read_folder
+
 
 class Config:
     def __init__(self, data):
@@ -28,24 +30,16 @@ class Config:
             return cls(data)
 
 
-def default_read(path):
-    __, destination = path.split(os.sep, 1)
-    with open(path, 'rb') as fo:
-        return destination, fo.read()
-
-
 class Includer(object):
     def add(self, extensions, function):
         for extension in extensions:
             self.specific[extension] = function
 
-    def read(self, path):
+    def read(self, path, content):
         partial_path, extension = os.path.splitext(path)
         extension = extension.strip('.')
         if extension in self.specific:
             extension, content = self.specific[extension](path)
-        else:
-            extension, content = default_read(path)
 
         __, partial_path = partial_path.split(os.sep, 1)
         destination = '{path}.{extension}'.format(
@@ -60,10 +54,8 @@ class Includer(object):
         self.specific = {}
 
     def __iter__(self):
-        for folder, __, filenames in os.walk(self.include):
-            for filename in filenames:
-                origin = os.path.join(folder, filename)
-                yield self.read(origin)
+        for path, content in read_folder(self.include, 'rb'):
+            yield self.read(path, content)
 
 
 class Writer(object):
