@@ -2,7 +2,6 @@ import importlib
 from .builder import Builder
 from .base import Config, Includer, Writer
 from .renderers import ContentRenderer
-from . import context
 import shutil
 import sys
 import os
