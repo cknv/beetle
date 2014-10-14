@@ -1,7 +1,7 @@
 import yaml
 import os
 
-from .utils import read_folder
+from .utils import read_folder, remove_leading_folder
 
 
 class Config:
@@ -41,7 +41,7 @@ class Includer(object):
         if extension in self.specific:
             extension, content = self.specific[extension](path)
 
-        __, partial_path = partial_path.split(os.sep, 1)
+        partial_path = remove_leading_folder(partial_path)
         destination = '{path}.{extension}'.format(
             path=partial_path,
             extension=extension,

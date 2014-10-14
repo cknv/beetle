@@ -7,3 +7,8 @@ def read_folder(folder, mode):
             path = os.path.join(folder, file_name)
             with open(path, mode) as fo:
                 yield path, fo.read()
+
+
+def remove_leading_folder(path):
+    __, partial_path = path.split(os.sep, 1)
+    return partial_path
