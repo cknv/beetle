@@ -41,7 +41,7 @@ class Includer(object):
 
         suggested_path = remove_leading_folder(path)
         if extension in self.specific:
-            handler = self.specific[extension](content)
+            handler = self.specific[extension]
             suggested_path, content = handler(content, suggested_path)
 
         return suggested_path, content
