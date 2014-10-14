@@ -46,10 +46,7 @@ class Builder:
 
     def __iter__(self):
         page_generator = read_folder(self.folders['content'], mode='r')
-        # print(page_generator)
         pages = make_pages(page_generator, self.page_defaults)
-        # pages = make_pages(self.page_paths(), self.page_defaults)
-        # pages = list(pages)
 
         self.site['pages'] = list(pages)
 
