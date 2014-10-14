@@ -38,15 +38,13 @@ class Includer(object):
     def read(self, path, content):
         partial_path, extension = os.path.splitext(path)
         extension = extension.strip('.')
-        if extension in self.specific:
-            extension, content = self.specific[extension](path)
 
-        partial_path = remove_leading_folder(partial_path)
-        destination = '{path}.{extension}'.format(
-            path=partial_path,
-            extension=extension,
-        )
-        return destination, content
+        suggested_path = remove_leading_folder(path)
+        if extension in self.specific:
+            handler = self.specific[extension](content)
+            suggested_path, content = handler(content, suggested_path)
+
+        return suggested_path, content
 
     def __init__(self, folders):
         self.include = folders['include']
