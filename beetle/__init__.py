@@ -1,5 +1,5 @@
 name = 'Beetle'
-version = '0.7.0-dev1'
+version = '0.7.0'
 project_url = 'https://github.com/cknv/beetle'
 
 class BeetleError(Exception):
