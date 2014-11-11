@@ -42,6 +42,11 @@ I should give credit where credit is due, so:
 * [Mike Cooper](http://mythmon.com/) for [wok](https://github.com/mythmon/wok), and showing me there is a simple way to make a static blog - I could easily have ended up using wok or a patched version thereof.
 * [Jeff Knupp](http://www.jeffknupp.com/) for pointing out that it's ok to make your own static blog engine, since it's so simple.
 
+Current State
+-------------
+
+Beetle already works, but since there is no documentation, be prepared to get your hands dirty and look at example sites and possibly the code, to get a working site up and running.
+
 Gaps and missing stuff
 -----------------------
 There are some areas that I know I want to work on and improve, these are (in no particular order):
