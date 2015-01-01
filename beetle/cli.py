@@ -9,7 +9,11 @@ import os
 
 def cleaner(folders):
     def clean():
-        shutil.rmtree(folders['output'])
+        try:
+            shutil.rmtree(folders['output'])
+        except FileNotFoundError:
+            pass
+
         os.mkdir(folders['output'])
     return clean
 
