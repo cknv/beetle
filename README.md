@@ -25,7 +25,9 @@ I have written a few plugins to get me started:
 
 Furthermore, other plugins have been contributed:
 
-* [Beetle-Sass](https://github.com/Tenzer/beetle-sass), for making SASS to CSS.
+* [Beetle-Sass](https://github.com/Tenzer/beetle-sass), for compiling SASS to CSS.
+* [Beetle-Htmlmin](https://github.com/Tenzer/beetle-htmlmin), for minifying outputted HTML files.
+* [Beetle-Sitemap](https://github.com/Tenzer/beetle-sitemap), for generating a sitemap.xml file for the site.
 
 If you have written a plugin, just drop me a line, and I can add it here.
 
@@ -61,7 +63,7 @@ Example Sites
 -------------
 
 * The site for which beetle was made: [cknv.dk](http://cknv.dk) and it's repo [github.com/cknv/cknv.dk](https://github.com/cknv/cknv.dk).
-* Very basic example at [github.com/Tenzer/beetle-example](https://github.com/Tenzer/beetle-example).
+* The site of [Tenzer.dk](http://tenzer.dk/) and the repository at [github.com/Tenzer/tenzer.dk](https://github.com/Tenzer/tenzer.dk).
 
 If you have made a site, and want your site listed here, just let me know. Then I will add it.
 
