@@ -25,7 +25,9 @@ I have written a few plugins to get me started:
 
 Furthermore, other plugins have been contributed:
 
-* [Beetle-Sass](https://github.com/Tenzer/beetle-sass), for making SASS to CSS.
+* [Beetle-Sass](https://github.com/Tenzer/beetle-sass), for compiling SASS to CSS.
+* [Beetle-Htmlmin](https://github.com/Tenzer/beetle-htmlmin), for minifying outputted HTML files.
+* [Beetle-Sitemap](https://github.com/Tenzer/beetle-sitemap), for generating a sitemap.xml file for the site.
 
 If you have written a plugin, just drop me a line, and I can add it here.
 
